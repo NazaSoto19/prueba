@@ -3,14 +3,14 @@ name: Notificar en Discord
 on:
   push:
     branches:
-      - master  # o main según tu rama
+      - main  # o master, según tu repo
 
 jobs:
   discordNotification:
     runs-on: ubuntu-latest
     steps:
       - name: Enviar notificación a Discord
-        uses: tsickert/discord-webhook@v5.0.0
+        uses: tsickert/discord-webhook@v5
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: |
