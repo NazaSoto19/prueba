@@ -1,20 +1,19 @@
-name: Notificar en Discord
+name: Notificar a Discord con curl
 
 on:
   push:
     branches:
-      - main  # o master, según tu repo
+      - main  # o 'master', según tu rama principal
 
 jobs:
-  discordNotification:
+  notify-discord:
     runs-on: ubuntu-latest
     steps:
       - name: Enviar notificación a Discord
-        uses: tsickert/discord-webhook@v5
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: |
-            ✅ Nuevo push en `${{ github.repository }}`
-            🔁 Rama: `${{ github.ref }}`
-            👤 Autor: `${{ github.actor }}`
-            📦 [Ver commit](${{ github.event.head_commit.url }})
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\": \"📢 Push detectado en *${{ github.repository }}* por **${{ github.actor }}** en la rama \`${{ github.ref_name }}\`\"}" \
+          $DISCORD_WEBHOOK
