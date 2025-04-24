@@ -1,9 +1,9 @@
-name: Notificar a Discord con curl
+name: Notificación estilo Naza 🔔
 
 on:
   push:
     branches:
-      - main  # o 'master', según tu rama principal
+      - main  # o "master", según tu caso
 
 jobs:
   notify-discord:
@@ -15,5 +15,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\": \"📢 Push detectado en *${{ github.repository }}* por **${{ github.actor }}** en la rama \`${{ github.ref_name }}\`\"}" \
+          -d "{\"content\": \"🚀 ${GITHUB_ACTOR} hizo push en rama *${GITHUB_REF_NAME}*\n📝 Commit: _${{ github.event.head_commit.message }}_\"}" \
           $DISCORD_WEBHOOK
