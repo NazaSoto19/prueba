@@ -1,0 +1,20 @@
+name: Notificar en Discord
+
+on:
+  push:
+    branches:
+      - main  # o "main", según tu repo
+
+jobs:
+  discordNotification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar notificación a Discord
+        uses: tsickert/discord-webhook@v7
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: |
+            ✅ Nuevo push en `${{ github.repository }}`
+            🔁 Rama: `${{ github.ref }}`
+            👤 Autor: `${{ github.actor }}`
+            📦 [Ver commit](${{ github.event.head_commit.url }})
